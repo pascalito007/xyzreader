@@ -15,4 +15,4 @@ What Will I Learn?
     Separate an interface into surfaces.
     Effectively use transitions and motion.
 
-!(https://image.ibb.co/e4qbF6/Screenshot_20171115_162412.png)
+![Main Screen](https://image.ibb.co/e4qbF6/Screenshot_20171115_162412.png)
