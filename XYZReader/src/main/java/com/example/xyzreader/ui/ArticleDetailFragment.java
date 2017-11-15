@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -27,18 +28,26 @@ import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.format.DateUtils;
 import android.text.method.LinkMovementMethod;
+import android.transition.Slide;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.xyzreader.R;
 import com.example.xyzreader.data.ArticleLoader;
@@ -105,6 +114,8 @@ public class ArticleDetailFragment extends Fragment implements
     @Nullable
     @BindView(R.id.app_bar)
     AppBarLayout mAppBarLayout;
+    @BindView(R.id.pb_loading_indicator)
+    ProgressBar mProgressBar;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -155,6 +166,7 @@ public class ArticleDetailFragment extends Fragment implements
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_article_detail, container, false);
         unbinder = ButterKnife.bind(this, view);
+
         /*mDrawInsetsFrameLayout = (DrawInsetsFrameLayout)
                 mRootView.findViewById(R.id.draw_insets_frame_layout);
         mDrawInsetsFrameLayout.setOnInsetsCallback(new DrawInsetsFrameLayout.OnInsetsCallback() {
@@ -314,12 +326,12 @@ public class ArticleDetailFragment extends Fragment implements
                     }
                 }
             });*/
-            String photoUrl=mCursor.getString(ArticleLoader.Query.PHOTO_URL);
+            String photoUrl = mCursor.getString(ArticleLoader.Query.PHOTO_URL);
             Glide.with(this).load(photoUrl).listener(GlidePalette.with(photoUrl).intoCallBack(new BitmapPalette.CallBack() {
                 @Override
                 public void onPaletteLoaded(@Nullable Palette palette) {
-                    Palette.Swatch swatch=palette.getDarkVibrantSwatch();
-                    if (swatch!=null){
+                    Palette.Swatch swatch = palette.getDarkVibrantSwatch();
+                    if (swatch != null) {
                         metaBar.setBackgroundColor(swatch.getRgb());
                         int defaultColor = 0xFF333333;
                         int darkMutedColor = palette.getDarkMutedColor(defaultColor);
@@ -329,7 +341,19 @@ public class ArticleDetailFragment extends Fragment implements
                         }
                     }
                 }
-            })).into(mPhotoView);
+            })).listener(new RequestListener<Drawable>() {
+                @Override
+                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                    mProgressBar.setVisibility(View.GONE);
+                    return false;
+                }
+
+                @Override
+                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                    mProgressBar.setVisibility(View.GONE);
+                    return false;
+                }
+            }).into(mPhotoView);
         } else {
             //mRootView.setVisibility(View.GONE);
             mTitleView.setText("N/A");
@@ -374,6 +398,13 @@ public class ArticleDetailFragment extends Fragment implements
         }
 
         bindViews();
+        /*if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            Slide slide = new Slide(Gravity.BOTTOM);
+            slide.addTarget(R.id.article_body);
+            slide.setInterpolator(AnimationUtils.loadInterpolator(getActivity(), android.R.interpolator.linear_out_slow_in));
+            slide.setDuration(500);
+            getActivity().getWindow().setEnterTransition(slide);
+        }*/
     }
 
     @Override

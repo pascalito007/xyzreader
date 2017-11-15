@@ -18,6 +18,7 @@
             android:id="@+id/thumbnail"
             tools:src="@drawable/placeholder_article_photo"
             android:layout_width="match_parent"
+            android:transitionName="@string/article_image_transition"
             android:layout_height="@dimen/article_photo_dp"
             android:scaleType="centerCrop"
             android:background="@color/photo_placeholder" />
