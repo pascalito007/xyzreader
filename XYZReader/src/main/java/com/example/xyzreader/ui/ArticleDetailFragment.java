@@ -31,6 +31,7 @@ import android.text.method.LinkMovementMethod;
 import android.transition.Slide;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -116,6 +117,8 @@ public class ArticleDetailFragment extends Fragment implements
     AppBarLayout mAppBarLayout;
     @BindView(R.id.pb_loading_indicator)
     ProgressBar mProgressBar;
+    @BindView(R.id.tvSeeMore)
+    TextView tvSeeMore;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -293,7 +296,26 @@ public class ArticleDetailFragment extends Fragment implements
                                 + "</font>"));
 
             }
-            mBodyView.setText(Html.fromHtml(mCursor.getString(ArticleLoader.Query.BODY).replaceAll("(\r\n|\n)", "<br />")));
+            final CharSequence detail = Html.fromHtml(mCursor.getString(ArticleLoader.Query.BODY).replaceAll("(\r\n|\n)", "<br />"));
+            mBodyView.setText(detail.toString().substring(0, (detail.length() <= 150 ? detail.length() : 150)));
+            tvSeeMore.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mBodyView.setText(detail.toString());
+                    view.setVisibility(View.INVISIBLE);
+                }
+            });
+            getView().setFocusableInTouchMode(true);
+            getView().requestFocus();
+            getView().setOnKeyListener(new View.OnKeyListener() {
+                @Override
+                public boolean onKey(View view, int keycode, KeyEvent keyEvent) {
+                    if (keycode == KeyEvent.KEYCODE_BACK) {
+                        mBodyView.setText("");
+                    }
+                    return false;
+                }
+            });
             /*ImageLoaderHelper.getInstance(getActivity()).getImageLoader()
                     .get(mCursor.getString(ArticleLoader.Query.PHOTO_URL), new ImageLoader.ImageListener() {
                         @Override
