@@ -16,4 +16,4 @@ What Will I Learn?
     Effectively use transitions and motion.
 
 = Preview
-![Main Screen](https://raw.githubusercontent.com/pascalito007/xyzreader/master/XYZReader/src/main/res/drawable/main_screen.png)
+![Main Screen](https://raw.githubusercontent.com/pasciano007@gmail.com/xyzreader/master/XYZReader/src/main/res/drawable/main_screen.png)
