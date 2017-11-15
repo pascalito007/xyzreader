@@ -18,3 +18,7 @@ What Will I Learn?
 = Preview
 
 ![main_screen](https://user-images.githubusercontent.com/4120406/32849204-6820ddec-ca26-11e7-90ff-8976bd913269.png)
+
+![detail1](https://user-images.githubusercontent.com/4120406/32849203-67f14974-ca26-11e7-9942-fe4837120faf.png)
+
+![detail_land](https://user-images.githubusercontent.com/4120406/32849202-67a1ba94-ca26-11e7-8f51-44432b3aab0f.png)
