@@ -11,5 +11,7 @@
     <string name="placeholder_article_title">1. Bacon spam ipsum dolor sit amet</string>
     <string name="placeholder_article_subtitle">21.12.2012 by Isaac Newton</string>
     <string name="placeholder_article_body">read more...</string>
+    <string name="data_loaded_msg">Data loaded</string>
+    <string name="no_data_loaded_msg">No data loaded</string>
 
 </resources>

@@ -151,7 +151,6 @@
         android:clickable="true"
         android:contentDescription="@string/action_share"
         android:src="@drawable/ic_share"
-        app:elevation="@dimen/fab_elevation"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end" />
 
